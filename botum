@@ -1,0 +1,138 @@
+import time
+import requests
+import random
+from benim_fonksyonlarım import gen_pass
+from benim_fonksyonlarım import tkm
+from benim_fonksyonlarım import tk
+from benim_fonksyonlarım import t
+from benim_fonksyonlarım import game_pass
+from benim_fonksyonlarım import eleman
+from benim_fonksyonlarım import toplama
+import discord
+from discord.ext import commands
+
+
+
+
+
+
+
+intents = discord.Intents.default()
+intents.message_content = True
+
+bot = commands.Bot(command_prefix='', intents=intents)
+
+@bot.event
+async def on_ready():
+    print(f'{bot.user} olarak giriş yaptık')
+
+@bot.command()
+async def hello(ctx):
+    await ctx.send(f'Merhaba! Ben {bot.user}, bir Discord sohbet botuyum!')
+
+@bot.command()
+async def şifrem(ctx, count_heh = 6):
+    await ctx.send(gen_pass(count_heh))
+
+
+@bot.command()
+async def resim(ctx):
+    with open('resimler/M2L1-T2-3_ue9vog.png','rb')as f:
+        y = discord.File(f)
+    await ctx.send(file = y)
+    
+def get_duck_image_url():    
+    url = 'https://random-d.uk/api/random'
+    res = requests.get(url)
+    data = res.json()
+    return data['url']
+
+
+@bot.command('duck')
+async def duck(ctx):
+    '''duck komutunu çağırdığımızda, program ordek_resmi_urlsi_al fonksiyonunu çağırır.'''
+    image_url = get_duck_image_url()
+    await ctx.send(image_url)
+
+
+
+@bot.command()
+async def resim1(ctx):
+    with open('C:/Users/ortak/OneDrive/Masaüstü/python/resimler/5454be867af9b6db37cf7a83d50d7cb2.jpg','rb')as f:
+        y = discord.File(f)
+    await ctx.send(file = y)
+
+
+@bot.command()
+async def yazıtura(ctx):
+    await ctx.send(game_pass('yazı','tura'))
+
+@bot.command()
+async def toplam(ctx, *a):
+    
+    topla = 0
+    for i in a:
+        topla += int(i)
+    await ctx.send(topla)
+
+
+
+     
+
+    
+    
+@bot.command()
+async def çarpma(ctx, *a):
+    
+    topla = 1
+    for i in a:
+        topla *= int(i)
+    await ctx.send(topla)
+
+@bot.command()
+async def böl(ctx, count_b = 3, count_c = 4):
+    await ctx.send(count_b / count_c)
+    
+   
+
+@bot.command()
+async def çıkar(ctx, *a):
+    
+    topla = 0
+    for i in range(len(a)):
+        if i == 0:
+            topla = int(a[i])
+        else:
+            topla -= int(a[i]) 
+            
+        await ctx.send(topla)
+
+@bot.command()
+async def taş(ctx):
+    await ctx.send(tkm('taş', 'makas', 'kağıt'))
+
+@bot.command()
+async def makas(ctx):
+    await ctx.send(tk('taş', 'makas', 'kağıt'))
+
+@bot.command()
+async def kağıt(ctx):
+    await ctx.send(t('taş', 'makas', 'kağıt'))
+
+
+
+@bot.command()
+async def tahmin(ctx):
+   
+    bot = random.range(1.101)
+   
+    tahmin_hak = 7
+
+    while True == tahmin_hak: #düzelt
+        tahmin_mesaji = await bot.wait_for("message", check=lambda m: m.author == ctx.author)
+        kullanici_tahmini = tahmin_mesaji.content
+
+        if kullanici_tahmini == bot:
+            await ctx.send('tebrikler bildiniz')
+        elif tahmin_hak == 0:
+            await ctx.send('malesef kaybettiniz') #buraya kadar
